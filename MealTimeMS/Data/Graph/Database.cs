@@ -105,14 +105,14 @@ public class Database
                 }
                 else
                 {
-                    log.Warn("WARNINGin Parent protein foreach this peptide was not found!!");
+                    log.Warn("WARNING Parent protein this peptide was not found!!");
                 }
             }
 
             // add retention time information
             setRetentionTimes();
             setIonMobility();
-#if !SIMPLIFIEDEXCLUSIONLIST
+#if PEPTIDEBASEDEXCLUSIONLIST
             peptides.Sort((Peptide x, Peptide y) => (y.getMass()).CompareTo(x.getMass()));
 #endif
             log.Debug("Done adding peptides.");

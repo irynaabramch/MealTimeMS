@@ -27,13 +27,14 @@ namespace MealTimeMS.Util
 
 		//Files that are absolutely required
 		public static String MealTimeMSParamsFile;
-		public static String FASTA_FILE; //the original protein database fasta file
-		public static String CometParamsFile;
+        public static String ExclusionDBFasta; //the fasta used to construct the in-program database graph. in most circumstances will be set to the same as FASTA_FILE
+                                               //quality check files
+
+        public static String FASTA_FILE; //the original protein database fasta file that was used in the psm database search. This file is used when we try to pass the partial psm/comet output to protein prophet again. Note that it is not this file, but the ExclusionDBFasta file, that is used to construct the in-program protein db graph.
+        public static String CometParamsFile;
         public static String AccordNet_LogisticRegressionClassifier_WeightAndInterceptSavedFile;
 
-        public static String ExclusionDBFasta; //the fasta used to construct the in-program database graph. in most circumstances will be set to the same as FASTA_FILE
-											   //quality check files
-		public static String CometQualityCheckFile = "";
+        public static String CometQualityCheckFile = "";
 
 		//Tools
 		public static String RTCalc = "";

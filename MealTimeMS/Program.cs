@@ -21,11 +21,10 @@
 #endregion legal notice
 
 //possible pre-processor directives
-//SIMULATION,DONTEVALUATE,STDEVINCLUDED,WRITE_RT_TIME,IGNORE,CHEATINGRTTIME,TRACKEXCLUDEDPROTEINFEATURE, DDA, EXTRACT_SPECTRAL_COUNT, LINUX, COMETOFFLINESEARCH, 
+//SIMULATION,DONTEVALUATE,STDEVINCLUDED,WRITE_RT_TIME,IGNORE,CHEATINGRTTIME,TRACKEXCLUDEDPROTEINFEATURE, QUICKDDASIMULATION, EXTRACT_SPECTRAL_COUNT, LINUX, COMETOFFLINESEARCH, 
 //for a real time test, use either 
-//IGNORE,DONTEVALUATE   or
-//IGNORE
-//For bruker, use BRUKERACQUISITIONSIMULATOR
+//IGNORE, SIMPLIFIEDEXCLUSIONLIST
+//If you're running a simulation with bruker acquisition simulator, use BRUKERACQUISITIONSIMULATOR.
 using System;
 using System.Globalization;
 using System.Threading;
@@ -259,7 +258,8 @@ namespace MealTimeMS
             GlobalVar.ClearExclusionListBeforeEachRun = brcOptions.ClearExclusionListBeforeEachRun;
             GlobalVar.DebugIntervals = brcOptions.DebugIntervals;
             GlobalVar.verbosity = brcOptions.verbosity;
-            
+            GlobalVar.exclusionMS_max_number_of_intervals_per_POST_request = brcOptions.max_count_of_intervals_per_ExclusionMS_POST_request;
+
             //BrukerInstrumentConnection.TestConnection();
             BrukerRuntimeCore.BrukerRuntimeCore_Main();
             Program.ExitProgram(0);
@@ -334,6 +334,8 @@ namespace MealTimeMS
             public bool ClearExclusionListBeforeEachRun { get; set; }
             [Option('v', "verbosity", Required = false, Default = 0, HelpText = "0 (default), 1(shows content of every POST call to exclusionMS),2,3")]
             public int verbosity { get; set; }
+            [Option('m', "maxIntervalsBatchSize", Required = false, Default = 10000, HelpText = "The max number of intervals that is sent to Exclusion MS per post request. Too large a number may create lag spike during acquisition. (100 may be a good number)")]
+            public int max_count_of_intervals_per_ExclusionMS_POST_request { get; set; }
 
 
         }

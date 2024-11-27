@@ -64,6 +64,7 @@ namespace MealTimeMS.Util
         public static String schemaRegistry_url = "http://localhost:8083";
         public static String exclusionMS_url = "http://192.168.0.29:8000"; // url of the exclusionMS webserver (url+ port number)
         public static String exclusionMS_ip = "http://192.168.0.29"; // ip of the exclusionMS webserver
+        public static int exclusionMS_max_number_of_intervals_per_POST_request = 100; //Patrick said ExclusionMS would rather have more requests with smaller number of intervals than a single request with too many interval. Sending more than 100 may create lag spike during acquisition. 
 
         //temp variables
         public static int randomRepeatsPerExperiment = 3;

@@ -161,6 +161,7 @@ namespace MealTimeMS.RunTime
 
                                 if (psm.ms2_id % GlobalVar.ScansPerOutput == 0)
                                 {
+                                    //debug loggin every few psms received
                                     Console.WriteLine($"key: {consumeResult.Message.Key}, psm- ms2_id: {psm.ms2_id}, rt: {psm.rt}, mono mz: {psm.mono_mz},charge: {psm.charge}, " +
                                     $"parent_id: {psm.parent_id}");
                                     if (id == null)
@@ -171,7 +172,6 @@ namespace MealTimeMS.RunTime
                                     {
                                         Console.WriteLine("id- ms2_id: {0}, xcor: {1}, dCN: {2}, sequence: {3}", id.getScanNum(), id.getXCorr(), id.getDeltaCN(), id.getPeptideSequence());
                                     }
-                                    //Console.WriteLine("Offset {0}", consumeResult.Offset);
                                 }
                                 counter_psm++;
                                 psmReceived = 1;
@@ -272,45 +272,10 @@ namespace MealTimeMS.RunTime
             }
             
             consumeTask_paserControl.Wait(600000000);
-            //consumeTask_Prolucid.Wait(600000000);
-            //consumeTask_ms2.Wait(600000000);
             cts.Cancel();
             Thread.Sleep(1500);
             Console.WriteLine("Operation finished");
             Console.WriteLine("Received total {0} psms and {1} ms2", counter_psm, counter_ms2);
-            //using (var schemaRegistry = new CachedSchemaRegistryClient(schemaRegistryConfig))
-            //using (var producer =
-            //    new ProducerBuilder<string, User>(producerConfig)
-            //        .SetValueSerializer(new AvroSerializer<User>(schemaRegistry, avroSerializerConfig))
-            //        .Build())
-            //{
-            //    Console.WriteLine($"{producer.Name} producing on {topicName}. Enter user names, q to exit.");
-
-            //    int i = 1;
-            //    string text;
-            //    while ((text = Console.ReadLine()) != "q")
-            //    {
-            //        User user = new User { name = text, favorite_color = "green", favorite_number = ++i, hourly_rate = new Avro.AvroDecimal(67.99) };
-            //        producer
-            //            .ProduceAsync(topicName, new Message<string, User> { Key = text, Value = user })
-            //            .ContinueWith(task =>
-            //            {
-            //                if (!task.IsFaulted)
-            //                {
-            //                    Console.WriteLine($"produced to: {task.Result.TopicPartitionOffset}");
-            //                    return;
-            //                }
-
-            //                // Task.Exception is of type AggregateException. Use the InnerException property
-            //                // to get the underlying ProduceException. In some cases (notably Schema Registry
-            //                // connectivity issues), the InnerException of the ProduceException will contain
-            //                // additional information pertaining to the root cause of the problem. Note: this
-            //                // information is automatically included in the output of the ToString() method of
-            //                // the ProduceException which is called implicitly in the below.
-            //                Console.WriteLine($"error producing message: {task.Exception.InnerException}");
-            //            });
-            //    }
-            //}
 
 
         }
@@ -361,18 +326,8 @@ namespace MealTimeMS.RunTime
         }
         public static void TestConnection()
         {
-            //String libraryPath = Path.Combine(InputFileOrganizer.AssemblyDirectory, "librdkafka\\x64\\librdkafka.dll");
-            //String libraryPath = Path.Combine(InputFileOrganizer.AssemblyDirectory, "EmbeddedDataFiles/librdkafka.dll");
-            //Console.WriteLine(libraryPath);
-            //Console.WriteLine("Type yes");
-            //while (!Console.ReadLine().Equals("yes"))
-            //{
-            //    Thread.Sleep(1000);
-            //}
-            //Library.Load(libraryPath);
+            
             Console.WriteLine("Testing connection to kafka broker");
-            //GlobalVar.kafka_url = "127.0.0.1:9092";
-            //GlobalVar.schemaRegistry_url = "127.0.0.1:8083";
             Connect(null, "", "", BrukerConnectionEnum.ProLucidConnectionOnly, runWithoutExclusionProfile: true, false);
         }
 

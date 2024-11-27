@@ -192,7 +192,7 @@ namespace MealTimeMS.RunTime
             e.exclusionProfile.getExclusionList().StartExclusionListOperationSW();
 #endif
 
-#if DDA
+#if QUICKDDASIMULATION
             new QuickDDAInstrumentSimulation(e, ms2SpectraList);
 #else
             //new DataReceiverSimulation().DoJob(e.exclusionProfile, ms2SpectraList);
@@ -360,7 +360,7 @@ namespace MealTimeMS.RunTime
                     ppr = PostProcessingScripts.postProcessing(e.exclusionProfile, proteinProphetResultFileName, true);
                 }
 
-#if DDA
+#if QUICKDDASIMULATION
                 if (e.exclusionProfile.getAnalysisType() == ExclusionProfileEnum.NO_EXCLUSION_PROFILE)
                 {
                     ProteinProphetResult baseLinePpr = ppr;

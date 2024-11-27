@@ -121,28 +121,32 @@ namespace MealTimeMS.ExclusionProfiles
         static int PostRequestCounter = 0;
         public async void PostIntervals(List<String> intervalJsons)
         {
-            String jsoncontent = String.Concat("[", String.Join(separator:",",intervalJsons),"]");
-            var request = new HttpRequestMessage
+            int batchSize = GlobalVar.exclusionMS_max_number_of_intervals_per_POST_request;
+            for (int i = 0; i < intervalJsons.Count; i += batchSize)
             {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(url_POST_intervals),
-                Content = new StringContent(jsoncontent, Encoding.UTF8, "application/json")
-            };
-            if (intervalJsons.Count == 0 || intervalJsons[0] == "")
-            {
-                Console.WriteLine("!!POST request empty!!");
+                List<string> intervalJsons_batch = intervalJsons.Skip(i).Take(batchSize).ToList();
+                String jsoncontent = String.Concat("[", String.Join(separator:",", intervalJsons_batch),"]");
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url_POST_intervals),
+                    Content = new StringContent(jsoncontent, Encoding.UTF8, "application/json")
+                };
+                PostRequestCounter++;
+                if (GlobalVar.verbosity >= 1) {
+                    Console.WriteLine("POST Request message: {0}", request.ToString());
+                    Console.WriteLine("msg content: {0}",jsoncontent);
+                }
+                //var response = client.SendAsync(request);
+                if (intervalJsons_batch.Count == 0)
+                {
+                    Console.WriteLine("!!POST intervals request empty, message not sent!!");
+                }
+                else
+                {
+                    var response = Task.Run(async () => await client.SendAsync(request)).Result;
+                }
             }
-            PostRequestCounter++;
-            if (GlobalVar.verbosity >= 1) {
-                Console.WriteLine("POST Request message: {0}", request.ToString());
-                Console.WriteLine("msg content: {0}",jsoncontent);
-            }
-            //var response = client.SendAsync(request);
-            var response = Task.Run(async () => await client.SendAsync(request)).Result;
-            //String responseString = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(responseString);
-            //var status = ( response.StatusCode.ToString());
-            //Console.WriteLine(status);
         }
         public override void addObservedPeptide(Peptide pep)
         {

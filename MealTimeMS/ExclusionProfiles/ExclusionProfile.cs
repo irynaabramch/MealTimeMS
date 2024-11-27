@@ -11,11 +11,9 @@ using MealTimeMS.ExclusionProfiles.TestProfile;
 namespace MealTimeMS.ExclusionProfiles
 {
 
-    //  This is the class where all Alex's program is going on
     //  This is the base class which MachineLearningGuidedExclusion class implements
     //  It contains an ExclusionList object that keeps track of the stuff being excluded
-    //  After DataProcessor class parses an incoming IMsScan into a Spectra object, this class processes the Spectra object in its evaluate() method - which is 
-    //      the entry point to Alex's program
+
     public abstract class ExclusionProfile
     {
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
@@ -37,7 +35,6 @@ namespace MealTimeMS.ExclusionProfiles
         {
             database = _database;
 
-            //exclusionList = new ExclusionList(_ppmTolerance);
             //exclusionList = new SimplifiedExclusionList_Key(_ppmTolerance);
             if (GlobalVar.isForBrukerRunTime)
             {
@@ -45,7 +42,11 @@ namespace MealTimeMS.ExclusionProfiles
             }
             else
             {
+#if PEPTIDEBASEDEXCLUSIONLIST
+                exclusionList = new ExclusionList(_ppmTolerance); // peptide based exclusion list
+#else
                 exclusionList = new SimplifiedExclusionList_IM2(_ppmTolerance);
+#endif
             }
             currentTime = 0.0;
             includedSpectra = new List<int>();
@@ -226,8 +227,8 @@ namespace MealTimeMS.ExclusionProfiles
             }
             //changes the status of the peptide from isPredicted = true to false, because now you have observed it
             double observedTime = currentTime;
-#if SIMPLIFIEDEXCLUSIONLIST
-            observedTime = currentTime - RetentionTime.getRetentionTimeOffset(); // In the SIMPLIFIEDEXCLUSIONLIST and ExclusionMS, the rtOffset cannot differentiate between an observed peptide rt or predicted peptide rt, so we need to nullify that offset by subtracting it here first
+#if !PEPTIDEBASEDEXCLUSIONLIST
+            observedTime = currentTime - RetentionTime.getRetentionTimeOffset(); // When using SIMPLIFIEDEXCLUSIONLIST and ExclusionMS, the rtOffset cannot differentiate between an observed peptide rt or predicted peptide rt, so we need to nullify that offset by subtracting it here first. The now observed retention time of the observed peptide exists within the simplified exclusion list (as opposed to the exclusion list we used in the past that stores peptides) as a retention time value, and is therefore affected by the retention time offset (that was designed to correct predicted, rather than observed values). So we account for that by subtracting the retention time offset
 #endif
             exclusionList.UpdateObservedPeptide(pep, observedTime, database.getRetentionTimeWindow());
         }
