@@ -10,5 +10,6 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN mkdir /opt/app
 COPY . /opt/app
 WORKDIR /opt/app
+RUN mkdir /opt/app/data
 RUN msbuild MealTimeMS.sln /property:Configuration=Release /property:Platform=x64 /property:DefineConstants="IGNORE" /restore
 ENTRYPOINT ["mono","MealTimeMS/bin/x64/Release/MealTimeMS.exe"]

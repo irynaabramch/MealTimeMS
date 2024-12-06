@@ -258,6 +258,7 @@ namespace MealTimeMS
             GlobalVar.ClearExclusionListBeforeEachRun = brcOptions.ClearExclusionListBeforeEachRun;
             GlobalVar.DebugIntervals = brcOptions.DebugIntervals;
             GlobalVar.verbosity = brcOptions.verbosity;
+            InputFileOrganizer.RTCalcResult = brcOptions.AutoRT_Output_FilePath;
             GlobalVar.exclusionMS_max_number_of_intervals_per_POST_request = brcOptions.max_count_of_intervals_per_ExclusionMS_POST_request;
 
             //BrukerInstrumentConnection.TestConnection();
@@ -324,13 +325,15 @@ namespace MealTimeMS
             public String exclusionMS_ip { get; set; }
             [Option("exclusionMS_port", Required = true, HelpText = "port number of the exclusionMS webserver")]
             public String exclusionMS_port { get; set; }
+            [Option("auto_rt_output", Required = true, HelpText = "file with AutoRT predicted retention times")]
+            public String AutoRT_Output_FilePath { get; set; }
             [Option('r', "report", Required = false, Default = 500, HelpText = "Number of scans processed for every info update (default 500)")]
             public int scansPerOutput { get; set; }
             [Option('d',"debugIntervals", Required = false, Default = 0, HelpText = "0 (default) = nothing, MTMS runs as usual; " +
                 "1 = sends 3-min exclusion intervals every 2 mins to exclude a list of 20 abundant proteins; " +
                 "2 = sends exclusion intervals that excludes mass 100-1500Da at 0-5min, and 1500-6000Da at 5-10min")]
             public int DebugIntervals { get; set; }
-            [Option('w', "clearExclusionMS", Required = false, Default = false, HelpText = "false (default): does not clear active exclusionMS list before each run; true: clears active exclusionMS list before each run")]
+            [Option('w', "clearExclusionMS", Required = false, Default = true, HelpText = "true (default): clears active exclusionMS list before each run; false: does not clear active exclusionMS list before each run")]
             public bool ClearExclusionListBeforeEachRun { get; set; }
             [Option('v', "verbosity", Required = false, Default = 0, HelpText = "0 (default), 1(shows content of every POST call to exclusionMS),2,3")]
             public int verbosity { get; set; }

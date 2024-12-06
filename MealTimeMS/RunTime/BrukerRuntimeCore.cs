@@ -139,7 +139,7 @@ namespace MealTimeMS.RunTime
             String TestDataDirectory = Path.Combine(InputFileOrganizer.AssemblyDirectory, "TestData");
             String datasetFolderName = "K562Lysate";
             InputFileOrganizer.ChainSawResult = Path.Combine(TestDataDirectory, datasetFolderName, "uniprot-R_20210810_UP000005640_human.fasta_digestedPeptides_2missedCleavage.tsv");
-            InputFileOrganizer.RTCalcResult = Path.Combine(TestDataDirectory, datasetFolderName, "AutoRT_fastaPrediction_misCleaved2.tsv");
+            //InputFileOrganizer.RTCalcResult = Path.Combine(TestDataDirectory, datasetFolderName, "AutoRT_fastaPrediction_misCleaved2.tsv"); //RT predictions should be provided with --auto_rt_output 
             InputFileOrganizer.ExclusionDBFasta = Path.Combine(TestDataDirectory, datasetFolderName, "uniprot-R_20210810_UP000005640_human.fasta");
             InputFileOrganizer.FASTA_FILE = Path.Combine(TestDataDirectory, datasetFolderName, "uniprot-R_20210810_UP000005640_human.fasta");
             InputFileOrganizer.AccordNet_LogisticRegressionClassifier_WeightAndInterceptSavedFile = Path.Combine(TestDataDirectory, datasetFolderName, "20200821K562300ng90min_1_Slot1-1_1_1638.d_extractedFeatures_positiveAndNonPositive.ClassifierCoefficient.txt");

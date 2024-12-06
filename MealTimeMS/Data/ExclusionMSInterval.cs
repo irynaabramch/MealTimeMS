@@ -13,9 +13,9 @@ namespace MealTimeMS.Data
         public static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
             FloatFormatHandling = FloatFormatHandling.DefaultValue,
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Include
         };
-    public int interval_id;
+    public string interval_id;
         public Nullable<int> charge = null;
         public Nullable<double> min_mass;
         public Nullable<double> max_mass;
@@ -27,7 +27,7 @@ namespace MealTimeMS.Data
         public Nullable<double> max_intensity = null;
         public ExclusionMSInterval(int _interval_id, double mass, double ppmTol, double rt, double rtWin)
         {
-            interval_id = _interval_id;
+            interval_id = _interval_id.ToString();
             min_mass = (mass * (1.0 - ppmTol));
             max_mass = (mass * (1.0 + ppmTol));
             min_rt = (rt - rtWin) * 60.0; //ExclusionMS takes time in seconds
@@ -35,7 +35,7 @@ namespace MealTimeMS.Data
         }
         public ExclusionMSInterval (int _interval_id, double _min_mass, double _max_mass, double _min_rt, double _max_rt, bool thisparamDoesntMatterItsJustHereForOverload)
         {
-            interval_id = _interval_id;
+            interval_id = _interval_id.ToString();
             min_mass = _min_mass;
             max_mass = _max_mass;
             min_rt = _min_rt;
@@ -50,7 +50,7 @@ namespace MealTimeMS.Data
         }
         public ExclusionMSInterval(int _interval_id)
         {
-            interval_id = _interval_id;
+            interval_id = _interval_id.ToString();
         }
         
         public String toJSONString()

@@ -7,6 +7,7 @@ using MealTimeMS.Util;
 using MealTimeMS.Data;
 using MealTimeMS.Data.Graph;
 using System.Net.Http;
+using Accord.Math;
 
 namespace MealTimeMS.ExclusionProfiles
 {
@@ -102,7 +103,7 @@ namespace MealTimeMS.ExclusionProfiles
         private async void RemoveInterval(int id)
         {
             //String intervalJson = ExclusionMSInterval.getEmptyJSONStringFromID(id);
-            String intervalJson = "[{\"interval_id\": \""+id+"\"}]";
+            String intervalJson = "[{\"interval_id\":\"" + id + "\",\"charge\":null,\"min_mass\":null,\"max_mass\":null,\"min_rt\":null,\"max_rt\":null,\"min_ook0\":null,\"max_ook0\":null,\"min_intensity\":null,\"max_intensity\":null}]";
             Console.WriteLine(intervalJson);
             var request = new HttpRequestMessage
             {
